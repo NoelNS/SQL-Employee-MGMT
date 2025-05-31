@@ -5,7 +5,7 @@ var prompt = inquirer.createPromptModule();
 const init = async () =>{
 
     
-    let task = await prompt([
+    let { task } = await prompt([
         {
             type: 'list',
             name: 'task',
@@ -16,6 +16,7 @@ const init = async () =>{
 
     console.log(task);
     
+    if(task == 'view all departments') 
 }
     
 

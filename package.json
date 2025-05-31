@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "chalk": "^5.4.1",
+    "console.table": "^0.10.0",
+    "figlet": "^1.8.1",
     "inquirer": "^12.6.3",
     "pg": "^8.16.0"
   },
@@ -7,7 +10,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

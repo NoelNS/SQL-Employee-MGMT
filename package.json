@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "chalk": "^5.4.1",
     "console.table": "^0.10.0",
     "figlet": "^1.8.1",
     "inquirer": "^12.6.3",

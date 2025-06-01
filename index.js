@@ -26,19 +26,19 @@ const init = async () => {
     ]);
 
 // ================================INQUIRER'S CHOICES======================================
-    const deptChoices = await db.query(`
+    const { rows:deptChoices } = await db.query(`
         SELECT
             name,
             id value
         FROM department`);
 
-    const roleChoices = await db.query(`
+    const { rows: roleChoices } = await db.query(`
         SELECT
             title name,
             id value
         FROM role`);
 
-    const empChoices = { Null: null, ... await db.query(`
+    const { rows:empChoices } = { Null: null, ... await db.query(`
         SELECT
             CONCAT(first_name,' ',last_name) name,
             id value
@@ -85,13 +85,13 @@ const init = async () => {
 
     if(task == 'add a department') {
 
-        const name = await prompt([{
+        const { name } = await prompt([{
             type:'input',
             name:'name',
             message:"What is the department's name?"
         }]);
 
-        await db.query(`INSERT INTO department (name) VALUES ($1)`, [ name ] );
+        await db.query('INSERT INTO department (name) VALUES ($1)', [ name ] );
         const { rows} = await db.query('SELECT * FROM department;');
         console.table(rows);
     };
@@ -117,12 +117,12 @@ const init = async () => {
             }
         ]);
         
-        await db.query(`INSERT INTO role SET ?`, { title, salary, department_id });
+        await db.query(`INSERT INTO role (title,salary,department_id) VALUES ($1,$2,$3)`, [ title, salary, department_id ]);
         const { rows} = await db.query('SELECT * FROM role;');
         console.table(rows);
     };
 
-    if(task == 'add a employee') {
+    if(task == 'add an employee') {
 
         const { first_name, last_name, role_id, manager_id } = await prompt([
             {
@@ -149,7 +149,7 @@ const init = async () => {
             }
         ]);
         
-        await db.query(`INSERT INTO employee SET ?`, { first_name, last_name, role_id, manager_id });
+        await db.query(`INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES ($1,$2,$3,$4)`, [ first_name, last_name, role_id, manager_id ]);
         const { rows} = await db.query('SELECT * FROM employee;');
         console.table(rows);
     };
@@ -177,7 +177,7 @@ const init = async () => {
             }
         ]);
         
-        await db.query(`UPDATE employee SET ? WHERE ?`, [{ role_id, manager_id }, { id }]);
+        await db.query(`UPDATE employee SET role_id = $1, manager_id = $2 WHERE id = $3`, [ role_id, manager_id, id ]);
         const { rows} = await db.query('SELECT * FROM employee;');
         console.table(rows);
     };
